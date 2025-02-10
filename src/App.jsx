@@ -12,8 +12,8 @@ const App = () => {
 
   const handleSort = (type) => {
     let newTweets = [...tweets];
-    
-    switch(type) {
+
+    switch (type) {
       case 'likes':
         newTweets.sort((a, b) => parseValue(b.likes) - parseValue(a.likes));
         break;
@@ -29,7 +29,7 @@ const App = () => {
       default:
         newTweets = [...tweets];
     }
-    
+
     setSortedTweets(newTweets);
     setSortOrder(type);
   };
@@ -198,39 +198,41 @@ const App = () => {
       <div className="timeline-wrapper">
         <div className="header">
           <h1>YeTweets</h1>
+          <p>February Archive</p>
         </div>
-        
+
         <div className="controls">
-          <button 
+          <button
             className={`control-btn ${sortOrder === 'newest' ? 'active' : ''}`}
             onClick={() => handleSort('newest')}
           >
-            Latest
+            Oldest First
           </button>
-          <button 
+          <button
+             className={`control-btn ${sortOrder === 'reverse' ? 'active' : ''}`}
+            onClick={() => handleSort('reverse')}
+          >
+            Newest First
+          </button>
+          <button
             className={`control-btn ${sortOrder === 'likes' ? 'active' : ''}`}
             onClick={() => handleSort('likes')}
           >
             Most Liked
           </button>
-          <button 
+          <button
             className={`control-btn ${sortOrder === 'retweets' ? 'active' : ''}`}
             onClick={() => handleSort('retweets')}
           >
             Most Retweeted
           </button>
-          <button 
+          <button
             className={`control-btn ${sortOrder === 'replies' ? 'active' : ''}`}
             onClick={() => handleSort('replies')}
           >
             Most Replies
           </button>
-          <button 
-            className="control-btn"
-            onClick={() => handleSort('reverse')}
-          >
-            Reverse
-          </button>
+
         </div>
 
         <div className="tweets">
