@@ -1,8 +1,39 @@
+import React, { useState } from 'react';
 import tweets from "./array.json";
-import React from 'react';
-
 
 const App = () => {
+  const [sortedTweets, setSortedTweets] = useState(tweets);
+  const [sortOrder, setSortOrder] = useState('newest');
+
+  const parseValue = (value) => {
+    if (typeof value !== 'string') return 0;
+    return parseFloat(value.replace('k', '000').replace('M', '000000'));
+  };
+
+  const handleSort = (type) => {
+    let newTweets = [...tweets];
+    
+    switch(type) {
+      case 'likes':
+        newTweets.sort((a, b) => parseValue(b.likes) - parseValue(a.likes));
+        break;
+      case 'retweets':
+        newTweets.sort((a, b) => parseValue(b.retweets) - parseValue(a.retweets));
+        break;
+      case 'replies':
+        newTweets.sort((a, b) => parseValue(b.replies) - parseValue(a.replies));
+        break;
+      case 'reverse':
+        newTweets.reverse();
+        break;
+      default:
+        newTweets = [...tweets];
+    }
+    
+    setSortedTweets(newTweets);
+    setSortOrder(type);
+  };
+
   return (
     <div className="timeline-container">
       <style>{`
@@ -36,6 +67,35 @@ const App = () => {
 
         .header p {
           color: #9CA3AF;
+        }
+
+        .controls {
+          display: flex;
+          gap: 0.75rem;
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .control-btn {
+          background-color: #16181C;
+          border: 1px solid #2F3336;
+          color: white;
+          padding: 0.5rem 1rem;
+          border-radius: 9999px;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-size: 0.875rem;
+        }
+
+        .control-btn:hover {
+          background-color: #1D1F23;
+          border-color: #3B82F6;
+        }
+
+        .control-btn.active {
+          background-color: #3B82F6;
+          border-color: #3B82F6;
         }
 
         .tweet {
@@ -116,18 +176,13 @@ const App = () => {
             font-size: 2rem;
           }
 
-          .tweet {
-            padding: 0.75rem;
+          .controls {
+            gap: 0.5rem;
           }
 
-          .tweet-stats {
-            gap: 1rem;
+          .control-btn {
+            padding: 0.4rem 0.8rem;
             font-size: 0.75rem;
-          }
-
-          .stat svg {
-            width: 0.875rem;
-            height: 0.875rem;
           }
         }
 
@@ -145,8 +200,42 @@ const App = () => {
           <h1>YeTweets</h1>
           <p>Latest tweets</p>
         </div>
+        
+        <div className="controls">
+          <button 
+            className={`control-btn ${sortOrder === 'newest' ? 'active' : ''}`}
+            onClick={() => handleSort('newest')}
+          >
+            Latest
+          </button>
+          <button 
+            className={`control-btn ${sortOrder === 'likes' ? 'active' : ''}`}
+            onClick={() => handleSort('likes')}
+          >
+            Most Liked
+          </button>
+          <button 
+            className={`control-btn ${sortOrder === 'retweets' ? 'active' : ''}`}
+            onClick={() => handleSort('retweets')}
+          >
+            Most Retweeted
+          </button>
+          <button 
+            className={`control-btn ${sortOrder === 'replies' ? 'active' : ''}`}
+            onClick={() => handleSort('replies')}
+          >
+            Most Replies
+          </button>
+          <button 
+            className="control-btn"
+            onClick={() => handleSort('reverse')}
+          >
+            Reverse
+          </button>
+        </div>
+
         <div className="tweets">
-          {tweets.map((tweet, index) => (
+          {sortedTweets.map((tweet, index) => (
             <div key={index} className="tweet">
               <div className="tweet-content">
                 <div className="avatar" />
@@ -199,4 +288,4 @@ const App = () => {
   );
 };
 
-export default App
+export default App;
