@@ -198,7 +198,6 @@ const App = () => {
       <div className="timeline-wrapper">
         <div className="header">
           <h1>YeTweets</h1>
-          <p>Latest tweets</p>
         </div>
         
         <div className="controls">
