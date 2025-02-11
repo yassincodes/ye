@@ -343,22 +343,20 @@ const App = () => {
             Most Replies
           </button>
           <button
+          className="control-btn"
   style={{
     display: "flex",
     alignItems: "center",
     padding: "10px 16px",
     border: "none",
-    borderRadius: "6px",
-    backgroundColor: "#007bff",
-    color: "white",
+    borderRadius: "9999px",
+
     fontSize: "14px",
     fontWeight: "500",
     cursor: "pointer",
     transition: "background 0.3s ease",
   }}
   onClick={() => setShowSupportModal(true)}
-  onMouseEnter={(e) => (e.target.style.backgroundColor = "#0056b3")}
-  onMouseLeave={(e) => (e.target.style.backgroundColor = "#007bff")}
 >
   <Heart style={{ marginRight: "8px", fill: "white" }} size={16} />
   Support the Archive
